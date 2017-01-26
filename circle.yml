@@ -22,3 +22,4 @@ deployment:
     commands:
       - git checkout $CIRCLE_TAG
       - mvn deploy
+      
