@@ -10,7 +10,7 @@
 
 	<groupId>com.deepoove</groupId>
 	<artifactId>swagger-diff</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2-is</version>
 	<packaging>jar</packaging>
 
 	<name>swagger-diff</name>
@@ -31,8 +31,6 @@
 		</developer>
 	</developers>
 
-
-
 	<scm>
 		<connection>scm:git:git@github.com:Sayi/swagger-diff.git</connection>
 		<developerConnection>scm:git:git@github.com:Sayi/swagger-diff.git</developerConnection>
@@ -43,16 +41,16 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<distributionManagement>
-		<snapshotRepository>
-			<id>oss</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		</snapshotRepository>
-		<repository>
-			<id>oss</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>builds</id>
+      <url>https://infusionsoft.jfrog.io/infusionsoft/ci-builds/</url>
+    </snapshotRepository>
+    <repository>
+      <id>builds</id>
+      <url>https://infusionsoft.jfrog.io/infusionsoft/releasable-builds/</url>
+    </repository>
+  </distributionManagement>
 
 	<dependencies>
 		<dependency>
