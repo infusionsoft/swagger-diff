@@ -1,0 +1,25 @@
+machine:
+  environment:
+    _JAVA_OPTIONS: '-Xms512m -Xmx1024m'
+    GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx1024m"'
+    TERM: dumb
+  java:
+    version: oraclejdk7
+
+dependencies:
+  override:
+    - mvn dependency:tree
+  pre:
+    - curl "https://storage.googleapis.com/circle-scripts/latest/init.sh" | bash
+
+deployment:
+  dev:
+    branch: master
+    commands:
+      - mvn clean test
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*-is/
+    commands:
+      - git checkout $CIRCLE_TAG
+      - mvn deploy
+      
