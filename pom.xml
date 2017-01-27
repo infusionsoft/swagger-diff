@@ -48,7 +48,7 @@
     </snapshotRepository>
     <repository>
       <id>builds</id>
-      <url>https://infusionsoft.jfrog.io/infusionsoft/mvn-clean/</url>
+      <url>https://infusionsoft.jfrog.io/infusionsoft/releasable-builds/</url>
     </repository>
   </distributionManagement>
 
