@@ -19,8 +19,7 @@ public class HtmlRender implements OutputRender {
 	private final String linkCss;
 
 	public HtmlRender() {
-		this.title = "API change log";
-		this.linkCss = "demo.css";
+		this("API change log", "demo.css");
 	}
 
 	public HtmlRender(String title, String linkCss) {
