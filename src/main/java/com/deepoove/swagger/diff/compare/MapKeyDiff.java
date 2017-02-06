@@ -17,7 +17,7 @@ public class MapKeyDiff<K, V> {
 	}
 
 	public static <K, V> MapKeyDiff<K, V> diff(Map<K, V> mapLeft,
-			Map<K, V> mapRight) {
+											   Map<K, V> mapRight) {
 		MapKeyDiff<K, V> instance = new MapKeyDiff<K, V>();
 		if (null == mapLeft && null == mapRight) return instance;
 		if (null == mapLeft) {

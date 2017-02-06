@@ -1,16 +1,15 @@
 package com.deepoove.swagger.diff.compare;
 
+import com.deepoove.swagger.diff.model.ElProperty;
+import io.swagger.models.Model;
+import io.swagger.models.properties.Property;
+import io.swagger.models.properties.RefProperty;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.deepoove.swagger.diff.model.ElProperty;
-
-import io.swagger.models.Model;
-import io.swagger.models.properties.Property;
-import io.swagger.models.properties.RefProperty;
 
 public class ModelDiff {
 
@@ -26,7 +25,7 @@ public class ModelDiff {
 	}
 
 	public static ModelDiff buildWithDefinition(Map<String, Model> left,
-			Map<String, Model> right) {
+												Map<String, Model> right) {
 		ModelDiff diff = new ModelDiff();
 		diff.oldDedinitions = left;
 		diff.newDedinitions = right;

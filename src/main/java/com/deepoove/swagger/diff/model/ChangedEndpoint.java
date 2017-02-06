@@ -1,11 +1,11 @@
 package com.deepoove.swagger.diff.model;
 
-import java.util.Map;
-
 import io.swagger.models.HttpMethod;
 import io.swagger.models.Operation;
 
-public class ChangedEndpoint implements Changed{
+import java.util.Map;
+
+public class ChangedEndpoint implements Changed {
 
 	private String pathUrl;
 
@@ -30,7 +30,7 @@ public class ChangedEndpoint implements Changed{
 			Map<HttpMethod, Operation> missingOperations) {
 		this.missingOperations = missingOperations;
 	}
-	
+
 
 	public Map<HttpMethod, ChangedOperation> getChangedOperations() {
 		return changedOperations;

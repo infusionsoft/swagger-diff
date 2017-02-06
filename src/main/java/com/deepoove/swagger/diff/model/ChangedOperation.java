@@ -1,9 +1,9 @@
 package com.deepoove.swagger.diff.model;
 
+import io.swagger.models.parameters.Parameter;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import io.swagger.models.parameters.Parameter;
 
 public class ChangedOperation implements Changed {
 
@@ -70,11 +70,13 @@ public class ChangedOperation implements Changed {
 				|| !changedParameter.isEmpty() || !addProps.isEmpty()
 				|| !missingProps.isEmpty();
 	}
-	public boolean isDiffProp(){
+
+	public boolean isDiffProp() {
 		return !addProps.isEmpty()
 				|| !missingProps.isEmpty();
 	}
-	public boolean isDiffParam(){
+
+	public boolean isDiffParam() {
 		return !addParameters.isEmpty() || !missingParameters.isEmpty()
 				|| !changedParameter.isEmpty();
 	}

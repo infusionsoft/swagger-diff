@@ -1,22 +1,16 @@
 package com.deepoove.swagger.diff.output;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
 import com.deepoove.swagger.diff.SwaggerDiff;
-import com.deepoove.swagger.diff.model.ChangedEndpoint;
-import com.deepoove.swagger.diff.model.ChangedOperation;
-import com.deepoove.swagger.diff.model.ChangedParameter;
-import com.deepoove.swagger.diff.model.Endpoint;
-import com.deepoove.swagger.diff.model.ElProperty;
-
+import com.deepoove.swagger.diff.model.*;
 import io.swagger.models.HttpMethod;
 import io.swagger.models.parameters.Parameter;
 import io.swagger.models.properties.Property;
 
-public class MarkdownRender implements OutputRender {
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+public class MarkdownRender implements OutputRender {
 	final String H3 = "### ";
 	final String BLOCKQUOTE = "> ";
 	final String CODE = "`";
@@ -24,8 +18,6 @@ public class MarkdownRender implements OutputRender {
 	final String PRE_LI = "    ";
 	final String LI = "* ";
 	final String HR = "---\n";
-
-	public MarkdownRender() {}
 
 	public String render(SwaggerDiff diff) {
 		List<Endpoint> newEndpoints = diff.getNewEndpoints();
@@ -37,11 +29,10 @@ public class MarkdownRender implements OutputRender {
 		List<ChangedEndpoint> changedEndpoints = diff.getChangedEndpoints();
 		String ol_changed = ol_changed(changedEndpoints);
 
-		return reanderHtml(ol_newEndpoint, ol_missingEndpoint, ol_changed);
+		return renderMarkdown(ol_newEndpoint, ol_missingEndpoint, ol_changed);
 	}
 
-	public String reanderHtml(String ol_new, String ol_miss,
-			String ol_changed) {
+	private String renderMarkdown(String ol_new, String ol_miss, String ol_changed) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(H3).append("What's New").append("\n").append(HR)
 				.append(ol_new).append("\n").append(H3)
@@ -78,14 +69,6 @@ public class MarkdownRender implements OutputRender {
 		}
 		return sb.toString();
 	}
-
-	// private String li_missingEndpoint(String method, String path,
-	// String desc) {
-	// StringBuffer sb = new StringBuffer();
-	// sb.append(LI).append(CODE).append(method).append(CODE).append(" " +
-	// path).append(" " + desc);
-	// return sb.toString();
-	// }
 
 	private String ol_changed(List<ChangedEndpoint> changedEndpoints) {
 		if (null == changedEndpoints) return "";
@@ -218,5 +201,4 @@ public class MarkdownRender implements OutputRender {
 		}
 		return sb.toString();
 	}
-
 }
