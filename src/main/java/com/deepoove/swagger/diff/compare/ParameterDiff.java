@@ -13,118 +13,118 @@ import java.util.Map;
 
 public class ParameterDiff {
 
-      private List<Parameter> increased;
-      private List<Parameter> missing;
-      private List<ChangedParameter> changed;
+	private List<Parameter> increased;
+	private List<Parameter> missing;
+	private List<ChangedParameter> changed;
 
-      Map<String, Model> oldDedinitions;
-      Map<String, Model> newDedinitions;
+	Map<String, Model> oldDedinitions;
+	Map<String, Model> newDedinitions;
 
-      private ParameterDiff() {
-      }
+	private ParameterDiff() {
+	}
 
-      public static ParameterDiff buildWithDefinition(Map<String, Model> left,
-                                                      Map<String, Model> right) {
-            ParameterDiff diff = new ParameterDiff();
-            diff.oldDedinitions = left;
-            diff.newDedinitions = right;
-            return diff;
-      }
+	public static ParameterDiff buildWithDefinition(Map<String, Model> left,
+													Map<String, Model> right) {
+		ParameterDiff diff = new ParameterDiff();
+		diff.oldDedinitions = left;
+		diff.newDedinitions = right;
+		return diff;
+	}
 
-      public ParameterDiff diff(List<Parameter> left,
-                                List<Parameter> right) {
-            ParameterDiff instance = new ParameterDiff();
-            if (null == left) left = new ArrayList<Parameter>();
-            if (null == right) right = new ArrayList<Parameter>();
+	public ParameterDiff diff(List<Parameter> left,
+							  List<Parameter> right) {
+		ParameterDiff instance = new ParameterDiff();
+		if (null == left) left = new ArrayList<Parameter>();
+		if (null == right) right = new ArrayList<Parameter>();
 
-            instance.increased = new ArrayList<Parameter>(right);
-            instance.missing = new ArrayList<Parameter>();
-            instance.changed = new ArrayList<ChangedParameter>();
-            for (Parameter leftPara : left) {
-                  String name = leftPara.getName();
-                  int index = index(instance.increased, name);
-                  if (-1 == index) {
-                        instance.missing.add(leftPara);
-                  } else {
-                        Parameter rightPara = instance.increased.get(index);
-                        instance.increased.remove(index);
+		instance.increased = new ArrayList<Parameter>(right);
+		instance.missing = new ArrayList<Parameter>();
+		instance.changed = new ArrayList<ChangedParameter>();
+		for (Parameter leftPara : left) {
+			String name = leftPara.getName();
+			int index = index(instance.increased, name);
+			if (-1 == index) {
+				instance.missing.add(leftPara);
+			} else {
+				Parameter rightPara = instance.increased.get(index);
+				instance.increased.remove(index);
 
-                        ChangedParameter changedParameter = new ChangedParameter();
-                        changedParameter.setLeftParameter(leftPara);
-                        changedParameter.setRightParameter(rightPara);
+				ChangedParameter changedParameter = new ChangedParameter();
+				changedParameter.setLeftParameter(leftPara);
+				changedParameter.setRightParameter(rightPara);
 
-                        if (leftPara instanceof BodyParameter && rightPara instanceof BodyParameter) {
-                              BodyParameter leftBodyPara = (BodyParameter) leftPara;
-                              Model leftSchema = leftBodyPara.getSchema();
-                              BodyParameter rightBodyPara = (BodyParameter) rightPara;
-                              Model rightSchema = rightBodyPara.getSchema();
-                              if (leftSchema instanceof RefModel && rightSchema instanceof RefModel) {
-                                    String leftRef = ((RefModel) leftSchema).getSimpleRef();
-                                    String rightRef = ((RefModel) rightSchema).getSimpleRef();
-                                    Model leftModel = oldDedinitions.get(leftRef);
-                                    Model rightModel = newDedinitions.get(rightRef);
-                                    ModelDiff diff = ModelDiff.buildWithDefinition(oldDedinitions, newDedinitions).diff(leftModel, rightModel, name);
-                                    changedParameter.setIncreased(diff.getIncreased());
-                                    changedParameter.setMissing(diff.getMissing());
-                              }
-                        }
+				if (leftPara instanceof BodyParameter && rightPara instanceof BodyParameter) {
+					BodyParameter leftBodyPara = (BodyParameter) leftPara;
+					Model leftSchema = leftBodyPara.getSchema();
+					BodyParameter rightBodyPara = (BodyParameter) rightPara;
+					Model rightSchema = rightBodyPara.getSchema();
+					if (leftSchema instanceof RefModel && rightSchema instanceof RefModel) {
+						String leftRef = ((RefModel) leftSchema).getSimpleRef();
+						String rightRef = ((RefModel) rightSchema).getSimpleRef();
+						Model leftModel = oldDedinitions.get(leftRef);
+						Model rightModel = newDedinitions.get(rightRef);
+						ModelDiff diff = ModelDiff.buildWithDefinition(oldDedinitions, newDedinitions).diff(leftModel, rightModel, name);
+						changedParameter.setIncreased(diff.getIncreased());
+						changedParameter.setMissing(diff.getMissing());
+					}
+				}
 
 
-                        //is requried
-                        boolean rightRequired = rightPara.getRequired();
-                        boolean leftRequired = leftPara.getRequired();
-                        changedParameter.setChangeRequired(leftRequired != rightRequired);
+				//is requried
+				boolean rightRequired = rightPara.getRequired();
+				boolean leftRequired = leftPara.getRequired();
+				changedParameter.setChangeRequired(leftRequired != rightRequired);
 
-                        //description
-                        String description = rightPara.getDescription();
-                        String oldPescription = leftPara.getDescription();
-                        if (StringUtils.isBlank(description)) description = "";
-                        if (StringUtils.isBlank(oldPescription)) oldPescription = "";
-                        changedParameter.setChangeDescription(!description.equals(oldPescription));
+				//description
+				String description = rightPara.getDescription();
+				String oldPescription = leftPara.getDescription();
+				if (StringUtils.isBlank(description)) description = "";
+				if (StringUtils.isBlank(oldPescription)) oldPescription = "";
+				changedParameter.setChangeDescription(!description.equals(oldPescription));
 
-                        if (changedParameter.isDiff()) {
-                              instance.changed.add(changedParameter);
-                        }
+				if (changedParameter.isDiff()) {
+					instance.changed.add(changedParameter);
+				}
 
-                  }
+			}
 
-            }
-            return instance;
-      }
+		}
+		return instance;
+	}
 
-      private static int index(List<Parameter> right, String name) {
-            int i = 0;
-            for (; i < right.size(); i++) {
-                  Parameter para = right.get(i);
-                  if (name.equals(para.getName())) {
-                        return i;
-                  }
-            }
-            return -1;
-      }
+	private static int index(List<Parameter> right, String name) {
+		int i = 0;
+		for (; i < right.size(); i++) {
+			Parameter para = right.get(i);
+			if (name.equals(para.getName())) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
-      public List<Parameter> getIncreased() {
-            return increased;
-      }
+	public List<Parameter> getIncreased() {
+		return increased;
+	}
 
-      public void setIncreased(List<Parameter> increased) {
-            this.increased = increased;
-      }
+	public void setIncreased(List<Parameter> increased) {
+		this.increased = increased;
+	}
 
-      public List<Parameter> getMissing() {
-            return missing;
-      }
+	public List<Parameter> getMissing() {
+		return missing;
+	}
 
-      public void setMissing(List<Parameter> missing) {
-            this.missing = missing;
-      }
+	public void setMissing(List<Parameter> missing) {
+		this.missing = missing;
+	}
 
-      public List<ChangedParameter> getChanged() {
-            return changed;
-      }
+	public List<ChangedParameter> getChanged() {
+		return changed;
+	}
 
-      public void setChanged(List<ChangedParameter> changed) {
-            this.changed = changed;
-      }
+	public void setChanged(List<ChangedParameter> changed) {
+		this.changed = changed;
+	}
 
 }
