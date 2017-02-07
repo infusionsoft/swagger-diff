@@ -109,10 +109,10 @@ public class HtmlRender implements OutputRender {
 
 					final ContainerTag ul_detail = ul().withClass("detail");
 					if (changedOperation.isDiffParam()) {
-						ul_detail.with(li().with(h3("参数")).with(ul_param(changedOperation)));
+						ul_detail.with(li().with(h3("Parameter")).with(ul_param(changedOperation)));
 					}
 					if (changedOperation.isDiffProp()) {
-						ul_detail.with(li().with(h3("返回类型")).with(ul_response(changedOperation)));
+						ul_detail.with(li().with(h3("Return Type")).with(ul_response(changedOperation)));
 					}
 					ol.with(li().with(span(method).withClass(method)).withText(pathUrl + " ").with(span(desc))
 							.with(ul_detail));
@@ -198,10 +198,10 @@ public class HtmlRender implements OutputRender {
 		final Parameter leftParam = changeParam.getLeftParameter();
 		final ContainerTag li = li().withText(rightParam.getName());
 		if (changeRequired) {
-			li.withText(" 修改为" + (rightParam.getRequired() ? "必填" : "非必填"));
+			li.withText(" change into" + (rightParam.getRequired() ? "Required" : "Not Required"));
 		}
 		if (changeDescription) {
-			li.withText(" 注释 ").with(del(leftParam.getDescription()).withClass("comment")).withText(" 改为 ").with(span(rightParam.getDescription()).withClass("comment"));
+			li.withText(" Notes ").with(del(leftParam.getDescription()).withClass("comment")).withText(" change to ").with(span(rightParam.getDescription()).withClass("comment"));
 		}
 
 		return li;
